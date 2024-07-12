@@ -1,18 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Asegúrate de tener esto para usar Text
 
 public class GameManager : MonoBehaviour
 {
     public static bool gameOver = false;
-    public static bool winCondition = false;
-    public static int actualPlayer = 0;
-    public static int playerScore = 0;
 
-    public Text scoreText; // Referencia al texto del puntaje
+    public static bool winCondition = false;
+
+    public static int actualPlayer = 0;
 
     public List<Controller_Target> targets;
+
     public List<Controller_Player> players;
 
     void Start()
@@ -21,34 +21,24 @@ public class GameManager : MonoBehaviour
         gameOver = false;
         winCondition = false;
         SetConstraits();
-        UpdateScoreUI(); // Inicializar el puntaje en la UI
     }
 
     void Update()
     {
         GetInput();
         CheckWin();
-    }
 
-    public static void AddScore(int score)
-    {
-        playerScore += score;
-        FindObjectOfType<GameManager>().UpdateScoreUI(); // Actualizar la UI del puntaje
-    }
-
-    private void UpdateScoreUI()
-    {
-        scoreText.text = "Score: " + playerScore;
     }
 
     private void CheckWin()
     {
         int i = 0;
-        foreach (Controller_Target t in targets)
+        foreach(Controller_Target t in targets)
         {
             if (t.playerOnTarget)
             {
                 i++;
+                //Debug.Log(i.ToString());
             }
         }
         if (i >= 7)
@@ -89,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void SetConstraits()
     {
-        foreach (Controller_Player p in players)
+        foreach(Controller_Player p in players)
         {
             if (p == players[actualPlayer])
             {
