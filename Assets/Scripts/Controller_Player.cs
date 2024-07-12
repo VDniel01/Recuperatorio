@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Controller_Player : MonoBehaviour
 {
     public float jumpForce = 10;
-
     public float speed = 5;
-
     public int playerNumber;
-
     public Rigidbody rb;
-
     private BoxCollider col;
-
     public LayerMask floor;
-
-    internal RaycastHit leftHit,rightHit,downHit;
-
-    public float distanceRay,downDistanceRay;
-
-    private bool canMoveLeft, canMoveRight,canJump;
+    internal RaycastHit leftHit, rightHit, downHit;
+    public float distanceRay, downDistanceRay;
+    private bool canMoveLeft, canMoveRight, canJump;
     internal bool onFloor;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
-        rb.constraints = RigidbodyConstraints.FreezePositionX| RigidbodyConstraints.FreezePositionZ|RigidbodyConstraints.FreezeRotation;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
     }
 
     public virtual void FixedUpdate()
@@ -39,7 +30,7 @@ public class Controller_Player : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected virtual void Update() // Cambiar a 'protected'
     {
         if (GameManager.actualPlayer == playerNumber)
         {
@@ -60,7 +51,6 @@ public class Controller_Player : MonoBehaviour
             {
                 canMoveRight = true;
             }
-
             if (IsOnSomething())
             {
                 canJump = true;
@@ -69,7 +59,6 @@ public class Controller_Player : MonoBehaviour
             {
                 canJump = false;
             }
-
         }
         else
         {
@@ -90,46 +79,39 @@ public class Controller_Player : MonoBehaviour
         }
     }
 
-
-
-
     public virtual bool IsOnSomething()
     {
-        return Physics.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y/3,transform.localScale.z*0.9f), Vector3.down, out downHit, Quaternion.identity, downDistanceRay);
+        return Physics.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y / 3, transform.localScale.z * 0.9f), Vector3.down, out downHit, Quaternion.identity, downDistanceRay);
     }
 
     public virtual bool SomethingRight()
     {
-        Ray landingRay = new Ray(new Vector3(transform.position.x,transform.position.y-(transform.localScale.y / 2.2f),transform.position.z), Vector3.right);
+        Ray landingRay = new Ray(new Vector3(transform.position.x, transform.position.y - (transform.localScale.y / 2.2f), transform.position.z), Vector3.right);
         Debug.DrawRay(landingRay.origin, landingRay.direction, Color.green);
-        return Physics.Raycast(landingRay, out rightHit, transform.localScale.x/1.8f);
+        return Physics.Raycast(landingRay, out rightHit, transform.localScale.x / 1.8f);
     }
 
     public virtual bool SomethingLeft()
     {
-        Ray landingRay = new Ray(new Vector3(transform.position.x, transform.position.y - (transform.localScale.y/2.2f), transform.position.z), Vector3.left);
+        Ray landingRay = new Ray(new Vector3(transform.position.x, transform.position.y - (transform.localScale.y / 2.2f), transform.position.z), Vector3.left);
         Debug.DrawRay(landingRay.origin, landingRay.direction, Color.green);
-        return Physics.Raycast(landingRay, out leftHit, transform.localScale.x/1.8f);
+        return Physics.Raycast(landingRay, out leftHit, transform.localScale.x / 1.8f);
     }
 
     private void Movement()
     {
         if (Input.GetKey(KeyCode.A) && canMoveLeft)
         {
-                rb.velocity = new Vector3(1 * -speed , rb.velocity.y, 0);
+            rb.velocity = new Vector3(1 * -speed, rb.velocity.y, 0);
         }
         else if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
-                rb.velocity = new Vector3(1 * speed, rb.velocity.y, 0);
+            rb.velocity = new Vector3(1 * speed, rb.velocity.y, 0);
         }
         else
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
-        //if (!canMoveLeft)
-        //    rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        //if (!canMoveRight)
-        //    rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 
     public virtual void Jump()
@@ -154,7 +136,6 @@ public class Controller_Player : MonoBehaviour
         {
             onFloor = true;
         }
-
     }
 
     private void OnCollisionExit(Collision collision)
