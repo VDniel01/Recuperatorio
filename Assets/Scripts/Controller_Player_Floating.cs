@@ -10,6 +10,6 @@ public class Controller_Player_Floating : Controller_Player
         {
             onFloor = true;
         }
-        //This makes the player invulnerable to water.
     }
+
 }

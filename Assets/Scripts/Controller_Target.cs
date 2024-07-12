@@ -17,10 +17,10 @@ public class Controller_Target : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (other.GetComponent<Controller_Player>().playerNumber == targetNumber)
+            var player = other.GetComponent<Controller_Player>();
+            if (player != null && player.playerNumber == targetNumber)
             {
                 playerOnTarget = true;
-                //Debug.Log("P on T");
             }
         }
     }
@@ -29,10 +29,10 @@ public class Controller_Target : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (other.GetComponent<Controller_Player>().playerNumber == targetNumber)
+            var player = other.GetComponent<Controller_Player>();
+            if (player != null && player.playerNumber == targetNumber)
             {
                 playerOnTarget = false;
-                //Debug.Log("P off T");
             }
         }
     }

@@ -44,32 +44,9 @@ public class Controller_Player : MonoBehaviour
         if (GameManager.actualPlayer == playerNumber)
         {
             Jump();
-            if (SomethingLeft())
-            {
-                canMoveLeft = false;
-            }
-            else
-            {
-                canMoveLeft = true;
-            }
-            if (SomethingRight())
-            {
-                canMoveRight = false;
-            }
-            else
-            {
-                canMoveRight = true;
-            }
-
-            if (IsOnSomething())
-            {
-                canJump = true;
-            }
-            else
-            {
-                canJump = false;
-            }
-
+            canMoveLeft = !SomethingLeft();
+            canMoveRight = !SomethingRight();
+            canJump = IsOnSomething();
         }
         else
         {
@@ -79,16 +56,14 @@ public class Controller_Player : MonoBehaviour
             }
             else
             {
-                if (IsOnSomething())
+                if (IsOnSomething() && downHit.collider != null && downHit.collider.gameObject.CompareTag("Player"))
                 {
-                    if (downHit.collider.gameObject.CompareTag("Player"))
-                    {
-                        rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                    }
+                    rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
                 }
             }
         }
     }
+
 
 
 

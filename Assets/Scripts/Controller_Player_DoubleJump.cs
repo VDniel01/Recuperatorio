@@ -21,16 +21,11 @@ public class Controller_Player_DoubleJump : Controller_Player
                 rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             }
         }
-        else
+        else if (jumpCounter > 0 && Input.GetKeyDown(KeyCode.W))
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                if (jumpCounter > 0)
-                {
-                    rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-                    jumpCounter--;
-                }
-            }
+            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+            jumpCounter--;
         }
     }
+
 }
