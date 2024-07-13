@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1406d2b18121841820c7bd2f4a95ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  jumpForce: 15
   speed: 5
   playerNumber: 7
   rb: {fileID: 0}
@@ -154,5 +154,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   distanceRay: 1
-  downDistanceRay: 0.5
-  dashForce: 20
+  downDistanceRay: 1
+  dashForce: 3

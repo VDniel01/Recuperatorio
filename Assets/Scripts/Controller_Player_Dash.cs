@@ -18,7 +18,13 @@ public class Controller_Player_Dash : Controller_Player
 
     private void Dash()
     {
-        rb.AddForce(new Vector3(speed * dashForce, 0, 0), ForceMode.Impulse);
+        Vector3 dashDirection = rb.velocity.normalized; // Obtener la dirección del movimiento actual
+        if (dashDirection == Vector3.zero) // Si no hay movimiento, dashear hacia la derecha como por defecto
+        {
+            dashDirection = Vector3.right;
+        }
+
+        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
         canDash = false;
         Invoke("ResetDash", 2f); // Cooldown de 2 segundos
     }

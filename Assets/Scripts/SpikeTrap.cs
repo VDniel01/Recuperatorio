@@ -9,7 +9,7 @@ public class SpikeTrap : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(collision.gameObject);
-            GameManager.gameOver = true;
+            GameManager.gameOver = true; // Acceso correcto al campo estático
         }
     }
 }

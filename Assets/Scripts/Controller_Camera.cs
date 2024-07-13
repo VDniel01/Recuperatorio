@@ -11,7 +11,6 @@ public class Controller_Camera : MonoBehaviour
     public float zoomvalue;
     private Vector3 velocity = Vector3.zero;
 
-
     void Start()
     {
         _camera = GetComponent<Camera>();
@@ -27,5 +26,4 @@ public class Controller_Camera : MonoBehaviour
             transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, dampTime);
         }
     }
-
 }

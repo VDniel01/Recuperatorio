@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static bool gameOver = false;
-
     public static bool winCondition = false;
-
     public static int actualPlayer = 0;
 
     public List<Controller_Target> targets;
-
     public List<Controller_Player> players;
 
     public void Start()
@@ -27,7 +22,6 @@ public class GameManager : MonoBehaviour
     {
         GetInput();
         CheckWin();
-
     }
 
     private void CheckWin()
@@ -52,7 +46,7 @@ public class GameManager : MonoBehaviour
         {
             if (actualPlayer <= 0)
             {
-                actualPlayer = 7;
+                actualPlayer = players.Count - 1; // Ajuste aquí
                 SetConstraints();
             }
             else
@@ -63,7 +57,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (actualPlayer >= 7)
+            if (actualPlayer >= players.Count - 1) // Ajuste aquí
             {
                 actualPlayer = 0;
                 SetConstraints();
@@ -80,13 +74,20 @@ public class GameManager : MonoBehaviour
     {
         foreach (var player in players)
         {
-            if (player == players[actualPlayer])
+            if (player != null && player.rb != null)
             {
-                player.rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                if (player == players[actualPlayer])
+                {
+                    player.rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                }
+                else
+                {
+                    player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                }
             }
             else
             {
-                player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                Debug.LogError("Player or Rigidbody is null. Please ensure all players are assigned and have a Rigidbody component.");
             }
         }
     }
