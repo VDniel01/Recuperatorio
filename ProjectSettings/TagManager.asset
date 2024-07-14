@@ -8,6 +8,7 @@ TagManager:
   - Water
   - Target
   - Trampoline
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PassableWalls
   - 
   - Player
   - Floor

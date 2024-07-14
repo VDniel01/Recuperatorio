@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         {
             if (actualPlayer <= 0)
             {
-                actualPlayer = players.Count - 1; // Ajuste aquí
+                actualPlayer = players.Count - 1;
                 SetConstraints();
             }
             else
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (actualPlayer >= players.Count - 1) // Ajuste aquí
+            if (actualPlayer >= players.Count - 1)
             {
                 actualPlayer = 0;
                 SetConstraints();
@@ -74,20 +75,13 @@ public class GameManager : MonoBehaviour
     {
         foreach (var player in players)
         {
-            if (player != null && player.rb != null)
+            if (player == players[actualPlayer])
             {
-                if (player == players[actualPlayer])
-                {
-                    player.rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                }
-                else
-                {
-                    player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                }
+                player.rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             }
             else
             {
-                Debug.LogError("Player or Rigidbody is null. Please ensure all players are assigned and have a Rigidbody component.");
+                player.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             }
         }
     }

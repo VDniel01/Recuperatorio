@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    public float duration = 5f;
+    public float duration = 10f; // Duración de la invulnerabilidad
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,11 +19,11 @@ public class PowerUp : MonoBehaviour
         Controller_Player controller = player.GetComponent<Controller_Player>();
         if (controller != null)
         {
-            // Aumentar la velocidad
-            controller.speed *= 2;
+            // Hacer al jugador invulnerable
+            controller.isInvulnerable = true;
             yield return new WaitForSeconds(duration);
-            // Restaurar la velocidad
-            controller.speed /= 2;
+            // Restaurar la vulnerabilidad
+            controller.isInvulnerable = false;
         }
         Destroy(gameObject);
     }

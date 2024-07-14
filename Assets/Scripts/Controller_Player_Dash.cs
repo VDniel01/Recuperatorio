@@ -4,33 +4,43 @@ using UnityEngine;
 
 public class Controller_Player_Dash : Controller_Player
 {
-    public float dashForce = 20f;
-    private bool canDash = true;
+    public float dashForce = 20f; // Fuerza del dash
+    public float dashDuration = 0.2f; // Duración del dash
+    private bool isDashing = false; // Indicador de si se está haciendo dash
+    private Vector3 dashDirection; // Dirección del dash
 
-    public override void Jump()
+    protected override void Update()
     {
-        base.Jump();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
         {
-            Dash();
+            StartCoroutine(Dash());
         }
     }
 
-    private void Dash()
+    private IEnumerator Dash()
     {
-        Vector3 dashDirection = rb.velocity.normalized; // Obtener la dirección del movimiento actual
-        if (dashDirection == Vector3.zero) // Si no hay movimiento, dashear hacia la derecha como por defecto
+        isDashing = true;
+        dashDirection = new Vector3(rb.velocity.x, 0, 0).normalized; // Dirección horizontal del dash
+        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse); // Aplica una fuerza de impulso en la dirección del dash
+        yield return new WaitForSeconds(dashDuration); // Espera el tiempo de duración del dash
+        rb.velocity = new Vector3(0, rb.velocity.y, 0); // Detiene el movimiento horizontal después del dash
+
+        // Verificar si el personaje está dentro de una pared
+        if (IsInsideWall())
         {
-            dashDirection = Vector3.right;
+            Destroy(this.gameObject); // Destruir el objeto del jugador
+            GameManager.gameOver = true; // Activar el estado de Game Over
         }
 
-        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
-        canDash = false;
-        Invoke("ResetDash", 2f); // Cooldown de 2 segundos
+        isDashing = false;
     }
 
-    private void ResetDash()
+    private bool IsInsideWall()
     {
-        canDash = true;
+        // Utilizar Physics.CheckBox para verificar colisiones con la capa de paredes
+        Collider[] colliders = Physics.OverlapBox(transform.position, col.size / 2, transform.rotation, LayerMask.GetMask("Wall"));
+        return colliders.Length > 0;
     }
 }

@@ -7,22 +7,23 @@ public class Controller_Player : MonoBehaviour
     public float jumpForce = 10;
     public float speed = 5;
     public int playerNumber;
+    public bool isInvulnerable = false;
     public Rigidbody rb;
-    private BoxCollider col;
+    protected BoxCollider col;
     public LayerMask floor;
     internal RaycastHit leftHit, rightHit, downHit;
     public float distanceRay, downDistanceRay;
-    private bool canMoveLeft, canMoveRight, canJump;
+    protected bool canMoveLeft, canMoveRight, canJump;
     internal bool onFloor;
 
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
-        col = GetComponent<BoxCollider>();
+        col = GetComponent<BoxCollider>(); // Asegúrate de que col esté inicializado
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
     }
 
-    public virtual void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (GameManager.actualPlayer == playerNumber)
         {
@@ -30,7 +31,7 @@ public class Controller_Player : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (GameManager.actualPlayer == playerNumber)
         {
@@ -78,11 +79,11 @@ public class Controller_Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) && canMoveLeft)
         {
-            rb.velocity = new Vector3(-speed, rb.velocity.y, 0);
+            rb.velocity = new Vector3(1 * -speed, rb.velocity.y, 0);
         }
         else if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
-            rb.velocity = new Vector3(speed, rb.velocity.y, 0);
+            rb.velocity = new Vector3(1 * speed, rb.velocity.y, 0);
         }
         else
         {
